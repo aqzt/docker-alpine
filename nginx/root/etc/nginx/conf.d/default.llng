@@ -1,0 +1,29 @@
+  server {
+    listen       80;
+    server_name  localhost;
+
+  # LemonLDAP:NG authentication request
+  location = /lmauth {
+    internal;
+    include /etc/nginx/fastcgi_params;
+    fastcgi_pass <LLNG_HANDLER_HOST>:<LLNG_HANDLER_PORT>;
+    fastcgi_param REMOTE_PORT <LLNG_HANDLER_PORT>;
+    fastcgi_pass_request_body  off;
+    fastcgi_param CONTENT_LENGTH "";
+    fastcgi_param HOST $http_host;
+    fastcgi_param X_ORIGINAL_URI  $request_uri;
+   }
+
+   location / {
+        root   /data/html;
+        index  index.html index.htm;
+    
+    auth_request /lmauth;
+    auth_request_set $lmremote_user $upstream_http_lm_remote_user;
+    auth_request_set $lmlocation $upstream_http_location;
+    auth_request_set $cookie_value $upstream_http_set_cookie;
+    add_header Set-Cookie $cookie_value;
+    error_page 401 $lmlocation;
+    }
+
+}
