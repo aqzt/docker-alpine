@@ -64,10 +64,5 @@
       sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/data:\/bin\/bash/g" /etc/passwd ; \
       sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/data:\/bin\/bash/g" /etc/passwd- ; \
       \
-### Install PHP Composer
-      ##php5 -dmemory_limit=1G composer.phar update  ; \
-      ##curl -sS https://install.phpcomposer.com/installer | php5 -dmemory_limit=1G -- --install-dir=/usr/bin --filename=composer ; \
-      curl -sS https://getcomposer.org/installer | php5 -- --install-dir=/usr/bin --filename=composer  ; \
-      \
 ### WWW  Installation
       mkdir -p /data/logs

@@ -79,8 +79,5 @@
       sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/data:\/bin\/bash/g" /etc/passwd- ; \
       ln -s /sbin/php-fpm7 /sbin/php-fpm ; \
       \
-### Install PHP Composer
-      curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer ; \
-      \
 ### WWW  Installation
       mkdir -p /data/logs
