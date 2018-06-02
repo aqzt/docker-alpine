@@ -14,4 +14,4 @@ fi
 
 echo ''
 echo '** [nginx-php-fpm] Starting php-fpm..'
-exec s6-setuidgid nginx php-fpm -F;
+exec s6-setuidgid nginx php-fpm5 -F;
