@@ -6,6 +6,7 @@
           mariadb-client \
           nginx \
           openssl \
+          php5 \
           php5-apcu \
           php5-bcmath \
           php5-bz2 \
@@ -60,8 +61,8 @@
       \
 ### Nginx and PHP5 Setup
       sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/php.ini ; \
-      sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/www:\/bin\/bash/g" /etc/passwd ; \
-      sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/www:\/bin\/bash/g" /etc/passwd- ; \
+      sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/data:\/bin\/bash/g" /etc/passwd ; \
+      sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/data:\/bin\/bash/g" /etc/passwd- ; \
       \
 ### Install PHP Composer
       curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer ; \
