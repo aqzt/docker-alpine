@@ -7,6 +7,7 @@
           nginx \
           openssl \
           php5 \
+          php5-common \
           php5-apcu \
           php5-bcmath \
           php5-bz2 \
@@ -28,7 +29,6 @@
           php5-imap \
           php5-json \
           php5-ldap \
-          php5-mailparse \
           php5-mcrypt \
           php5-mysqli \
           php5-odbc \
@@ -65,7 +65,8 @@
       sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/data:\/bin\/bash/g" /etc/passwd- ; \
       \
 ### Install PHP Composer
-      curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer ; \
+      ##php5 -dmemory_limit=1G composer.phar update  ; \
+      curl -sS https://getcomposer.org/installer | php5 -dmemory_limit=1G -- --install-dir=/usr/bin --filename=composer ; \
       \
 ### WWW  Installation
       mkdir -p /data/logs
