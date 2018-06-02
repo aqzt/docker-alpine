@@ -66,7 +66,8 @@
       \
 ### Install PHP Composer
       ##php5 -dmemory_limit=1G composer.phar update  ; \
-      curl -sS https://install.phpcomposer.com/installer | php5 -dmemory_limit=1G -- --install-dir=/usr/bin --filename=composer ; \
+      ##curl -sS https://install.phpcomposer.com/installer | php5 -dmemory_limit=1G -- --install-dir=/usr/bin --filename=composer ; \
+      curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer  ; \
       \
 ### WWW  Installation
       mkdir -p /data/logs
