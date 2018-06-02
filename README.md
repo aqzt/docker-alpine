@@ -17,6 +17,9 @@
 利用此镜像作为进一步构建的基础。默认情况下，它不会启动s6-overlay系统，请访问[s6 overlay repository](https://github.com/just-containers/s6-overlay) 
 关于如何启用S6 init系统时使用此基础或查看我的一些其他镜像的说明。
 
+### 使用说明
+
+快速使用，请访问[https://bbs.aqzt.com/forum-41-1.html](https://bbs.aqzt.com/forum-41-1.html) 
 
 
 ## 配置
