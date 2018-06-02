@@ -1,0 +1,24 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/99-container-init ]
+do
+  sleep 1
+done
+
+if [ ! -f /tmp/state/`basename $0` ]; then
+        echo ' '
+        sleep 60
+        echo '59 23 * * * logrotate -f /etc/logrotate.d/* >/dev/null 2>&1' >>/assets/cron/crontab.txt
+	mkdir -p /tmp/state/
+	echo 'Initialization Complete' >/tmp/state/`basename $0`
+fi
+
+echo '** [cron] Starting cron'
+
+if [ -d /assets/cron-custom ]; then
+        echo '** [cron] Found Custom Crontab - Merging'
+        cat /assets/cron-custom/* >>/assets/cron/crontab.txt
+fi
+
+/usr/bin/crontab /assets/cron/crontab.txt
+exec /usr/sbin/crond -f -l 8 >/dev/null 2>&1;

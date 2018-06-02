@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bash
+
+### Set Defaults
+  ENABLE_CRON=${ENABLE_CRON:-"TRUE"}
+  
+### Check to see if Enabled/Disabled
+  if [ "$ENABLE_CRON" = "FALSE" ] || [ "$ENABLE_CRON" = "false" ];  then
+    echo "**** [cron] Disabling Cron"
+    s6-svc -d /var/run/s6/services/`basename $0`
+  else
+    echo "**** [cron] Enabling Cron"
+  fi
+
+  mkdir -p /tmp/state
+  touch /tmp/state/`basename $0`-init
