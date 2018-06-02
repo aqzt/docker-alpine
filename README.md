@@ -1,4 +1,4 @@
-# docker-alpine
+## docker-alpine
 
 基于alpine系统构建docker镜像，实现可配置和易于管理的docker镜像。
 
@@ -12,14 +12,14 @@
 - 使用docker镜像快速启用微服务架构。
 - 使用docker镜像快速部署监控。
 
-# 快速开始
+## 快速开始
 
 利用此镜像作为进一步构建的基础。默认情况下，它不会启动s6-overlay系统，请访问[s6 overlay repository](https://github.com/just-containers/s6-overlay) 
 关于如何启用S6 init系统时使用此基础或查看我的一些其他镜像的说明。
 
 
 
-# 配置
+## 配置
 
 ### 数据卷
 
@@ -81,9 +81,7 @@
 | `ZABBIX_ALLOW_ROOT` | Allow running as root - Default: `1` |
 | `ZABBIX_USER` | Zabbix user to start as - Default: `zabbix` |
 
-If you enable `DEBUG_PERMISSIONS=TRUE` all the users and groups have been modified in accordance with Environmental Variables will be displayed in output.
-e.g. If you add `USER_NGINX=1000` it will reset the containers `nginx` user id from `82` to `1000` - Hint, also change the Group ID to your local development users UID & GID
-and avoid Docker permission issues when developing.
+
 如果启用`DEBUG_PERMISSIONS=TRUE`，所有用户和组都已根据环境变量进行修改，将在输出中显示。
 例如，如果添加`USER_NGINX=1000`，它会将容器“nginx”用户ID从“82”重置为“1000”-提示，也将组ID更改为本地开发用户UID和GID。
 避免开发时的用户许可问题。
@@ -109,7 +107,7 @@ and avoid Docker permission issues when developing.
 
 
 
-# 调试模式
+## 调试模式
 
 
 当使用此作为基础映像时，在启动脚本中创建语句，检查是否存在`DEBUG_MODE=TRUE`，并在应用程序中设置各种参数，以输出更多细节、启用调试模式等。在这个基本图像中，它做如下操作：
@@ -118,7 +116,7 @@ and avoid Docker permission issues when developing.
 * 启用MelHog邮件收集器，它用自己的CaskAdl执行替换`/usr/sbin/sendmail` 。它还为SMTP捕获打开端口“1025”，您可以查看它在端口“8025”处捕获的消息。
 
 
-# 维护
+## 维护
 #### 通过shell进入容器
 
 出于调试和维护的目的，您可以访问容器。 
@@ -128,6 +126,6 @@ docker exec -it 你的容器名称 bash
 ```
 
 
-# 工具
+## 工具
 
 * https://www.alpinelinux.org
