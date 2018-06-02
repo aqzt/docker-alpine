@@ -7,9 +7,6 @@ LABEL maintainer="ppabc (ppabc@qq.com)"
    ADD root /
    RUN /tmp/install.sh
 
-### data  Installation
-      mkdir -p /data/logs
-
 ### Networking Configuration
   EXPOSE 80 443
 
