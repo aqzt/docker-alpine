@@ -1,0 +1,57 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/99-container-init ]
+do
+  sleep 1
+done
+
+	if [ -z "$MYSQL_ROOT_PASSWORD" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
+			echo >&2 'error: database is uninitialized and MYSQL_ROOT_PASSWORD not set'
+			echo >&2 '  Did you forget to add -e MYSQL_ROOT_PASSWORD=... ?'
+			exit 1
+	fi
+
+### Update for Zabbix Monitoring
+sed -i -e "s/<ROOT_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" /etc/zabbix/.my.cnf
+chmod 0700 /etc/zabbix/.my.cnf
+chown -R zabbix /etc/zabbix
+
+
+### Permissions Fix
+chmod 0644 /etc/mysql/my.cnf
+
+
+if [ -d /var/lib/mysql/mysql ]; then
+	echo "** [mariadb] [i] MariaDB directory already present, skipping DB creation."
+else
+
+	echo "** [mariadb] [i] MySQL data directory is not found, creating initial DB(s)..."
+	mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql --defaults-file=/etc/mysql/my.cnf >/dev/null
+
+TEMP_FILE='/tmp/mysql-first-time.sql'
+cat > "$TEMP_FILE" <<-EOSQL
+DELETE FROM mysql.user ;
+CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
+GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+DROP DATABASE IF EXISTS test ;
+EOSQL
+	
+	if [ "$MYSQL_DATABASE" ]; then
+		echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` ;" >> "$TEMP_FILE"
+	fi
+	
+	if [ "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
+		echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" >> "$TEMP_FILE"
+		
+		if [ "$MYSQL_DATABASE" ]; then
+			echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" >> "$TEMP_FILE"
+		fi
+	fi
+
+        echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
+
+	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="$TEMP_FILE"
+	rm -f $TEMP_FILE
+    fi
+
+exec /usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --user=mysql --console
