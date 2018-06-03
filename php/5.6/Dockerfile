@@ -1,5 +1,5 @@
-FROM ppabc/docker-alpine:alpine
-LABEL maintainer="ppabc (ppabc@qq.com)"
+FROM aqzt/docker-alpine
+LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ### Default Runtime Environment Variables
   ENV ZABBIX_HOSTNAME=nginx-php-fpm-app \
@@ -9,8 +9,7 @@ LABEL maintainer="ppabc (ppabc@qq.com)"
    RUN /tmp/install.sh
 
 ### Networking Configuration
-  EXPOSE 80
+  EXPOSE 80 443
 
 ### Files Addition
-  ADD root /
   RUN chmod +x /etc/zabbix/zabbix_agentd.conf.d/scripts/*

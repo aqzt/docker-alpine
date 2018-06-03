@@ -11,7 +11,7 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.7/community" >> /etc/apk/reposito
         ENABLE_ZABBIX=FALSE
 
 ### Add Zabbix User First
-        set -x ; \
+        RUN set -x ; \
         addgroup -g 10050 zabbix ; \
         adduser -S -D -H -h /dev/null -s /sbin/nologin -G zabbix -u 10050 zabbix ;\
         

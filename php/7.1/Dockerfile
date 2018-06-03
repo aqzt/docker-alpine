@@ -1,4 +1,4 @@
-FROM ppabc/docker-alpine:alpine
+FROM aqzt/docker-alpine
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ### Default Runtime Environment Variables
@@ -9,7 +9,8 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
    RUN /tmp/install.sh
 
 ### Networking Configuration
-  EXPOSE 80 443
+  EXPOSE 80
 
 ### Files Addition
+  ADD root /
   RUN chmod +x /etc/zabbix/zabbix_agentd.conf.d/scripts/*

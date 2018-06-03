@@ -9,7 +9,7 @@ LABEL maintainer="ppabc (ppabc@qq.com)"
         ENABLE_ZABBIX=FALSE
 
 ### Add Zabbix User First
-        set -x ; \
+        RUN set -x ; \
         addgroup -g 10050 zabbix ; \
         adduser -S -D -H -h /dev/null -s /sbin/nologin -G zabbix -u 10050 zabbix ;\
         
