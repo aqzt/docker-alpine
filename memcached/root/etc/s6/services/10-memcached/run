@@ -1,0 +1,22 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/99-container-init ]
+do
+  sleep 1
+done
+
+if [ ! -f /tmp/state/10-memcached ]; then
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- memcached "$@"
+fi
+
+    mkdir -p /tmp/state
+	echo 'Initialization Complete' >/tmp/state/10-memcached
+fi
+
+echo ''
+echo '** Starting memcached..'
+exec s6-setuidgid memcache memcached
+
