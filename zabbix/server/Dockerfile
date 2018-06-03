@@ -8,4 +8,4 @@ RUN chmod +x /zabbix/install.sh  && chmod +x /zabbix/startup.sh && sh /zabbix/in
 
 EXPOSE 80 443 10050 10051
 
-CMD /zabbix/startup.sh
+CMD ["/zabbix/startup.sh"]
