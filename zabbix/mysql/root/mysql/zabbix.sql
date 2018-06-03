@@ -18,7 +18,7 @@
 --
 -- Table structure for table `acknowledges`
 --
-
+USE zabbix;
 
 DROP TABLE IF EXISTS `acknowledges`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
