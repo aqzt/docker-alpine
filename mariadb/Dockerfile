@@ -1,4 +1,4 @@
-FROM aqzt/docker-alpine:aliyun
+FROM aqzt/docker-alpine
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
     ENV MARIADB_VER=10.2.14 \
