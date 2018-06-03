@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+
+### Set Defaults
+export CATALINA_OPTS=${CATALINA_OPTS:-"-Xmx${JS_Xmx} -XX:MaxPermSize=${JS_MaxPermSize} ${JS_CATALINA_OPTS}"}
+
+  
+
