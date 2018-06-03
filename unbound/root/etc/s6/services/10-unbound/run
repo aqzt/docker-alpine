@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/99-container-init ]
+do
+  sleep 1
+done
+
+if [ ! -f /tmp/state/10-unbound ]; then
+	echo 'Initialization Complete' >/tmp/state/10-unbound
+fi
+
+echo ''
+echo '** Starting unbound'
+exec unbound -d -v
+
