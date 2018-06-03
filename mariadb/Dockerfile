@@ -149,6 +149,7 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
         # Set permissions
         chown -R mysql:mysql /var/lib/mysql ; \
         chown -R mysql:mysql /run/mysqld ; \
+        chmod 777 /tmp ; \
         rm -rf /var/cache/apk/*
 
 
