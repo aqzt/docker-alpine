@@ -64,12 +64,12 @@ EOSQL
 			echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" >> "$TEMP_FILE"
 		fi
 	fi
-
+cat /mysql/zabbix.sql  >> "$TEMP_FILE"
         echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
 
-	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="/mysql/zabbix.sql"
+	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="$TEMP_FILE"
 
-	rm -f $TEMP_FILE /mysql/zabbix.sql
+	rm -f $TEMP_FILE 
     fi
 
 exec /usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --user=mysql --console
