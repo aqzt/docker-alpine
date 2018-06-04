@@ -18,6 +18,21 @@
 --
 -- Table structure for table `acknowledges`
 --
+
+DELETE FROM mysql.user ;
+USE mysql;
+FLUSH PRIVILEGES;
+CREATE USER 'root'@'127.0.0.1' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
+CREATE USER 'root'@'172.17.0.%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
+GRANT ALL ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION ;
+GRANT ALL ON *.* TO 'root'@'172.17.0.%' WITH GRANT OPTION ;
+DROP DATABASE IF EXISTS test ;
+create user zabbix@'127.0.0.1' identified by 'zabbix';
+create user zabbix@'172.17.0.%' identified by 'zabbix';
+create database zabbix char set utf8;
+grant all on zabbix.* to zabbix@'127.0.0.1';
+grant all on zabbix.* to zabbix@'172.17.0.%';
+
 USE zabbix;
 
 DROP TABLE IF EXISTS `acknowledges`;

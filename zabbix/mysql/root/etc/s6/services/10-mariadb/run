@@ -67,8 +67,7 @@ EOSQL
 
         echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
 
-	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="$TEMP_FILE"
-	/usr/bin/mysqld --user=mysql --bootstrap --datadir=/data/mysql/data/ --verbose=0 < "/mysql/zabbix.sql"
+	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="/mysql/zabbix.sql"
 
 	rm -f $TEMP_FILE /mysql/zabbix.sql
     fi
