@@ -42,8 +42,10 @@ USE mysql;
 FLUSH PRIVILEGES;
 CREATE USER 'root'@'127.0.0.1' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
 CREATE USER 'root'@'172.17.0.%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
+CREATE USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
 GRANT ALL ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION ;
 GRANT ALL ON *.* TO 'root'@'172.17.0.%' WITH GRANT OPTION ;
+GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
 DROP DATABASE IF EXISTS test ;
 create user zabbix@'127.0.0.1' identified by 'zabbix';
 create user zabbix@'172.17.0.%' identified by 'zabbix';
@@ -67,7 +69,7 @@ EOSQL
         echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
 
 	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="$TEMP_FILE"
-        /usr/bin/mysqld --user=mysql --bootstrap --datadir=/data/mysql/data/ --verbose=0 < "/mysql/zabbix.sql"
+        /usr/bin/mysql -uroot -D zabbix -p"${MYSQL_ROOT_PASSWORD}" < "/mysql/zabbix.sql"
 
 	rm -f $TEMP_FILE 
     fi
