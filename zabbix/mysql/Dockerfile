@@ -1,8 +1,5 @@
-FROM ppabc/alpine:3.7m
+FROM aqzt/docker-alpine:mini
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
-
-RUN echo "https://mirrors.aliyun.com/alpine/v3.7/main" > /etc/apk/repositories
-RUN echo "https://mirrors.aliyun.com/alpine/v3.7/community" >> /etc/apk/repositories
 
    RUN set -x ; \
        mkdir -p /var/lib/mysql/ /run/mysqld /data/mysql/data/ /data/mysql/logs/ ; \
