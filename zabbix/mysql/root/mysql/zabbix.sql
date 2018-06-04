@@ -19,6 +19,7 @@
 -- Table structure for table `acknowledges`
 --
 
+
 USE zabbix;
 
 DROP TABLE IF EXISTS `acknowledges`;
@@ -4519,3 +4520,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-04-15 16:08:20
+FLUSH PRIVILEGES;

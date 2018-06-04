@@ -1,42 +1,33 @@
-#!/usr/bin/with-contenv bash
+#!/bin/sh
 
-  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-"111111"}
+if [ -d /data/mysql ]; then
+  echo "[i] MySQL directory already present, skipping creation"
+else
+  echo "[i] MySQL data directory not found, creating initial DBs"
+  mkdir -p /data/mysql/ /data/mysql/data/ /data/mysql/logs/
+  chown -R mysql:mysql /data/mysql/
+  mysql_install_db --user=mysql --datadir=/data/mysql/data/ > /dev/null
+  
+  if [ "$MYSQL_ROOT_PASSWORD" = "" ]; then
+    MYSQL_ROOT_PASSWORD=111111
+    echo "[i] MySQL root Password: $MYSQL_ROOT_PASSWORD"
+  fi
+
   MYSQL_DATABASE=${MYSQL_DATABASE:-""}
   MYSQL_USER=${MYSQL_USER:-""}
   MYSQL_PASSWORD=${MYSQL_PASSWORD:-""}
 
-while [ ! -f /tmp/state/99-container-init ]
-do
-  sleep 1
-done
+  if [ ! -d "/run/mysqld" ]; then
+    mkdir -p /run/mysqld
+	chown -R mysql:mysql /run/mysqld
+  fi
 
-	if [ -z "$MYSQL_ROOT_PASSWORD" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
-			echo >&2 'error: database is uninitialized and MYSQL_ROOT_PASSWORD not set'
-			echo >&2 '  Did you forget to add -e MYSQL_ROOT_PASSWORD=... ?'
-			exit 1
-	fi
+  tfile=`mktemp`
+  if [ ! -f "$tfile" ]; then
+      return 1
+  fi
 
-### Update for Zabbix Monitoring
-sed -i -e "s/<ROOT_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" /etc/zabbix/.my.cnf
-chmod 0700 /etc/zabbix/.my.cnf
-chown -R zabbix /etc/zabbix
-
-
-### Permissions Fix
-chmod 0644 /etc/mysql/my.cnf
-
-
-if [ -d /data/mysql ]; then
-	echo "** [mariadb] [i] MariaDB directory already present, skipping DB creation."
-else
-
-	echo "** [mariadb] [i] MySQL data directory is not found, creating initial DB(s)..."
-	mkdir  -p /data/mysql/data/ /data/mysql/logs/
-	chown -R mysql:mysql /data/mysql/
-	mysql_install_db --user=mysql  --datadir=/data/mysql/data/ --defaults-file=/etc/mysql/my.cnf >/dev/null
-
-TEMP_FILE='/tmp/mysql-first-time.sql'
-cat > "$TEMP_FILE" <<-EOSQL
+  cat << EOF > $tfile
 DELETE FROM mysql.user ;
 USE mysql;
 FLUSH PRIVILEGES;
@@ -52,26 +43,24 @@ create user zabbix@'172.17.0.%' identified by 'zabbix';
 create database zabbix char set utf8;
 grant all on zabbix.* to zabbix@'127.0.0.1';
 grant all on zabbix.* to zabbix@'172.17.0.%';
-EOSQL
+FLUSH PRIVILEGES;
+EOF
 
-	
-	if [ "$MYSQL_DATABASE" ]; then
-		echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` ;" >> "$TEMP_FILE"
-	fi
-	
-	if [ "$MYSQL_USER" -a "$MYSQL_PASSWORD" ]; then
-		echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" >> "$TEMP_FILE"
-		
-		if [ "$MYSQL_DATABASE" ]; then
-			echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" >> "$TEMP_FILE"
-		fi
-	fi
-        echo 'FLUSH PRIVILEGES ;' >> "$TEMP_FILE"
+  if [ "$MYSQL_DATABASE" != "" ]; then
+    echo "[i] Creating database: $MYSQL_DATABASE"
+    echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
 
-	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=mysql --init-file="$TEMP_FILE"
-        /usr/bin/mysql -uroot -D zabbix -p"${MYSQL_ROOT_PASSWORD}" < "/mysql/zabbix.sql"
-
-	rm -f $TEMP_FILE 
+    if [ "$MYSQL_USER" != "" ]; then
+      echo "[i] Creating user: $MYSQL_USER with password $MYSQL_PASSWORD"
+      echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
     fi
+  fi
 
-exec /usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --user=mysql --console
+  /usr/bin/mysqld --user=mysql --bootstrap --datadir=/data/mysql/data/ --verbose=0 < $tfile
+  rm -f $tfile
+fi
+
+exec /usr/bin/mysqld --user=mysql --datadir=/data/mysql/data --console &
+sleep 5
+/usr/bin/mysql -uroot -D zabbix -p"${MYSQL_ROOT_PASSWORD}" < "/mysql/zabbix.sql"
+ping 127.0.0.1 >> /dev/null

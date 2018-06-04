@@ -1,5 +1,8 @@
-FROM aqzt/docker-alpine
+FROM ppabc/alpine:3.7m
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
+
+RUN echo "https://mirrors.aliyun.com/alpine/v3.7/main" > /etc/apk/repositories
+RUN echo "https://mirrors.aliyun.com/alpine/v3.7/community" >> /etc/apk/repositories
 
    RUN set -x ; \
        mkdir -p /var/lib/mysql/ /run/mysqld /data/mysql/data/ /data/mysql/logs/ ; \
@@ -16,3 +19,4 @@ ADD root /
 
 EXPOSE 3306
 
+CMD ["/etc/s6/services/10-mariadb/run"]
