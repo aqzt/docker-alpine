@@ -1,8 +1,7 @@
 # docker-alpine
-[![Build Status](https://travis-ci.com/aqzt/docker-alpine.svg?branch=master)](https://travis-ci.com/aqzt/docker-alpine)
+[![](https://img.shields.io/docker/pulls/aqzt/docker-alpine.svg)](https://store.docker.com/community/images/aqzt/docker-alpine) 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/aqzt/docker-alpine/pulls)
-[![](https://img.shields.io/docker/pulls/aqzt/docker-alpine.svg)](https://store.docker.com/community/images/aqzt/docker-alpine) 
 [![GitHub stars](https://img.shields.io/github/stars/aqzt/docker-alpine.svg?style=social&label=Stars)](https://github.com/aqzt/docker-alpine)
 [![GitHub forks](https://img.shields.io/github/forks/aqzt/docker-alpine.svg?style=social&label=Fork)](https://github.com/aqzt/docker-alpine)
 
@@ -21,6 +20,7 @@
 - s6  [http://skarnet.org/software/s6/](http://skarnet.org/software/s6/) 
 - s6-overlay  [https://github.com/just-containers/s6-overlay](https://github.com/just-containers/s6-overlay) 
 - supervise [https://github.com/Supervisor/supervisor](https://github.com/Supervisor/supervisor) 
+- consul [https://www.consul.io](https://www.consul.io) 
 
 ## 快速开始
 
