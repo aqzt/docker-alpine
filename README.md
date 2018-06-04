@@ -1,26 +1,48 @@
-## docker-alpine
+# docker-alpine
+[![Build Status](https://travis-ci.com/aqzt/docker-alpine.svg?branch=master)](https://travis-ci.com/aqzt/docker-alpine)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/aqzt/docker-alpine/pulls)
+[![](https://img.shields.io/docker/pulls/aqzt/docker-alpine.svg)](https://store.docker.com/community/images/aqzt/docker-alpine) 
+[![GitHub stars](https://img.shields.io/github/stars/aqzt/docker-alpine.svg?style=social&label=Stars)](https://github.com/aqzt/docker-alpine)
+[![GitHub forks](https://img.shields.io/github/forks/aqzt/docker-alpine.svg?style=social&label=Fork)](https://github.com/aqzt/docker-alpine)
 
 基于alpine系统构建docker镜像，实现可配置和易于管理的docker镜像。
 
-## 目标
+## 项目简介
 
-这个项目有以下目标：
-
-- 制作非常小的docker镜像。
+- 提供非常小的docker镜像。
 - 提供易于配置的docker镜像。
 - 提供非常稳定的docker镜像。
 - 使用docker镜像快速启用微服务架构。
 - 使用docker镜像快速部署监控。
+
+## 技术栈
+- Alpine linux  [https://www.alpinelinux.org](https://www.alpinelinux.org) 
+- s6  [http://skarnet.org/software/s6/](http://skarnet.org/software/s6/) 
+- s6-overlay  [https://github.com/just-containers/s6-overlay](https://github.com/just-containers/s6-overlay) 
+- supervise [https://github.com/Supervisor/supervisor](https://github.com/Supervisor/supervisor) 
 
 ## 快速开始
 
 利用此镜像作为进一步构建的基础。默认情况下，它不会启动s6-overlay系统，请访问[s6 overlay repository](https://github.com/just-containers/s6-overlay) 
 关于如何启用S6 init系统时使用此基础或查看我的一些其他镜像的说明。
 
-### 使用说明
+## 使用说明
 
-快速使用，请访问[https://bbs.aqzt.com/forum-41-1.html](https://bbs.aqzt.com/forum-41-1.html) 
+- 快速使用，请访问[https://bbs.aqzt.com/forum-41-1.html](https://bbs.aqzt.com/forum-41-1.html) 
 
+## 其他地址
+
+- 开源中国●码云地址：[https://gitee.com/aqztcom/docker-alpine](https://gitee.com/aqztcom/docker-alpine) 
+- Github地址：[https://github.com/aqzt/docker-alpine](https://github.com/aqzt/docker-alpine) 
+- Docker官方容器地址：[https://hub.docker.com/r/aqzt/docker-alpine/](https://hub.docker.com/r/aqzt/docker-alpine/) 
+
+## 微信关注支持
+
+![image](https://git.oschina.net/aqztcom/kjyw/raw/master/images/aqzt.jpg)
+- 一起来参与完善，分享或是交流，提高工作效率！
+- 如果想分享或是交流的话，请加快捷运维QQ群：7652650 
+- Email：ppabc@qq.com
 
 ## 配置
 
@@ -109,9 +131,7 @@
 | `10050`   | Zabbix Agent |
 
 
-
 ## 调试模式
-
 
 当使用此作为基础镜像时，在启动脚本中创建语句，检查是否存在`DEBUG_MODE=TRUE`，并在应用程序中设置各种参数，以输出更多细节、启用调试模式等。在这个基本镜像中，它做如下操作：
 
@@ -128,7 +148,3 @@
 docker exec -it 你的容器名称 bash
 ```
 
-
-## 工具
-
-* https://www.alpinelinux.org
