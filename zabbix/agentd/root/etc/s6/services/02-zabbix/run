@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/99-container-init ]
+do
+  sleep 1
+done
+
+### Start Zabbix
+echo ''
+echo '** [zabbix] Starting Zabbix Agent'
+
+exec s6-setuidgid zabbix zabbix_agentd -f >/dev/null 2>&1;

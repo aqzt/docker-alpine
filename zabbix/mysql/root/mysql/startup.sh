@@ -12,10 +12,11 @@ else
     MYSQL_ROOT_PASSWORD=111111
     echo "[i] MySQL root Password: $MYSQL_ROOT_PASSWORD"
   fi
-
+  
+### Set Defaults
   MYSQL_DATABASE=${MYSQL_DATABASE:-""}
   MYSQL_USER=${MYSQL_USER:-""}
-  MYSQL_PASSWORD=${MYSQL_PASSWORD:-""}
+  MYSQL_PASSWORD=${MYSQL_PASSWORD:-"111111"}
 
   if [ ! -d "/run/mysqld" ]; then
     mkdir -p /run/mysqld
@@ -59,6 +60,7 @@ EOF
   /usr/bin/mysqld --user=mysql --bootstrap --datadir=/data/mysql/data/ --verbose=0 < $tfile
   rm -f $tfile
 fi
+
 
 exec /usr/bin/mysqld --user=mysql --datadir=/data/mysql/data --console &
 sleep 5

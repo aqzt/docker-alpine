@@ -1,0 +1,59 @@
+#!/usr/bin/with-contenv bash
+
+### Set Defaults
+  ENABLE_ZABBIX=${ENABLE_ZABBIX:-"TRUE"}
+  ZABBIX_LOGFILE=${ZABBIX_LOGFILE:-"/var/log/zabbix/zabbix_agentd.log"}
+  ZABBIX_LOGFILESIZE=${ZABBIX_LOGFILESIZE:-"1"}
+  ZABBIX_DEBUGLEVEL=${ZABBIX_DEBUGLEVEL:-"1"}
+  ZABBIX_REMOTECOMMANDS=${ZABBIX_REMOTECOMMANDS:-"1"}
+  ZABBIX_REMOTECOMMANDS_LOG=${ZABBIX_REMOTECOMMANDS_LOG:-"1"}
+  ZABBIX_SERVER=${ZABBIX_SERVER:-"0.0.0.0/0"}
+  ZABBIX_LISTEN_PORT=${ZABBIX_LISTEN_PORT:-"10050"}
+  ZABBIX_LISTEN_IP=${ZABBIX_LISTEN_IP:-"0.0.0.0"}
+  ZABBIX_START_AGENTS=${ZABBIX_START_AGENTS:-"0"}
+  ZABBIX_SERVER_ACTIVE=${ZABBIX_SERVER_ACTIVE:-"zabbix-proxy"}
+  ZABBIX_HOSTNAME=${ZABBIX_HOSTNAME:-"docker"}
+  ZABBIX_REFRESH_ACTIVE_CHECKS=${ZABBIX_REFRESH_ACTIVE_CHECKS:-"120"}
+  ZABBIX_BUFFER_SEND=${ZABBIX_BUFFER_SEND:-"5"}
+  ZABBIX_BUFFER_SIZE=${ZABBIX_BUFFER_SIZE:-"100"}
+  ZABBIX_MAXLINES_SECOND=${ZABBIX_MAXLINES_SECOND:-"20"}
+  ZABBIX_ALLOW_ROOT=${ZABBIX_ALLOW_ROOT:-"1"}
+  ZABBIX_USER=${ZABBIX_USER:-"zabbix"}
+  ZABBIX_TIMEOUT=${ZABBIX_TIMEOUT:-"30"}
+  ZABBIX_UNSAFEUSERPARAMETERS=${ZABBIX_UNSAFEUSERPARAMETERS:-"1"}
+  
+### Debug Mode
+  if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ];  then
+    ZABBIX_DEBUGLEVEL=4
+  fi
+
+### Check to see if Enabled/Disabled
+  if [ "$ENABLE_ZABBIX" = "TRUE" ] || [ "$ENABLE_ZABBIX" = "true" ];  then
+    sed -i -e "s|<ZABBIX_LOGFILE>|$ZABBIX_LOGFILE|g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_LOGFILESIZE>/$ZABBIX_LOGFILESIZE/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_DEBUGLEVEL>/$ZABBIX_DEBUGLEVEL/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_REMOTECOMMANDS>/$ZABBIX_REMOTECOMMANDS/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_REMOTECOMMANDS_LOG>/$ZABBIX_REMOTECOMMANDS_LOG/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s|<ZABBIX_SERVER>|$ZABBIX_SERVER|g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_LISTEN_PORT>/$ZABBIX_LISTEN_PORT/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_LISTEN_IP>/$ZABBIX_LISTEN_IP/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_START_AGENTS>/$ZABBIX_START_AGENTS/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_SERVER_ACTIVE>/$ZABBIX_SERVER_ACTIVE/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_HOSTNAME>/$ZABBIX_HOSTNAME/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_REFRESH_ACTIVE_CHECKS>/$ZABBIX_REFRESH_ACTIVE_CHECKS/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_BUFFER_SEND>/$ZABBIX_BUFFER_SEND/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_BUFFER_SIZE>/$ZABBIX_BUFFER_SIZE/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_MAXLINES_SECOND>/$ZABBIX_MAXLINES_SECOND/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_ALLOW_ROOT>/$ZABBIX_ALLOW_ROOT/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_USER>/$ZABBIX_USER/g" /etc/zabbix/zabbix_agentd.conf
+  
+    mkdir -p ${ZABBIX_LOGFILE%/*}
+    chown -R $ZABBIX_USER ${ZABBIX_LOGFILE%/*}
+    chown -R $ZABBIX_USER /etc/zabbix/
+  else
+    echo "**** [zabbix] Disabling Zabbix"
+    s6-svc -d /var/run/s6/services/`basename $0`
+  fi
+
+  mkdir -p /tmp/state
+  touch /tmp/state/`basename $0`-init

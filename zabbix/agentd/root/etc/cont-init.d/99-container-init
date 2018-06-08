@@ -1,0 +1,27 @@
+#!/usr/bin/with-contenv bash
+
+### Timezone Setup
+if [ -n "$TIMEZONE" ]; then 
+    set_timezone () {
+      if [ -f /usr/share/zoneinfo/$TIMEZONE ];  then
+        echo "**** [timezone] Setting timezone to $TIMEZONE"
+        cp -R /usr/share/zoneinfo/$1 /etc/localtime
+        echo $1 > /etc/timezone
+      else
+        echo "**** [timezone] ERROR: Timezone $TIMEZONE does not exist - Skipping.."
+      fi
+    } 
+
+    if [ ! -d /usr/share/zoneinfo ];  then
+      apk add --update tzdata
+      set_timezone $TIMEZONE
+      apk del tzdata
+      rm -rf /var/cache/apk/*
+    else
+      set_timezone $TIMEZONE
+    fi
+fi
+
+
+  mkdir -p /tmp/state
+  touch /tmp/state/99-container-init

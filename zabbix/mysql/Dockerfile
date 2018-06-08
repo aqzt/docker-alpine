@@ -1,5 +1,7 @@
-FROM aqzt/docker-alpine:mini
+FROM aqzt/docker-alpine
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
+
+ENV ENABLE_ZABBIX=TRUE
 
    RUN set -x ; \
        mkdir -p /var/lib/mysql/ /run/mysqld /data/mysql/data/ /data/mysql/logs/ ; \
@@ -9,11 +11,11 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
        chown -R mysql:mysql /run/mysqld ; \
        chmod 777 /tmp
     
-   RUN apk add --update mariadb mariadb-client  ; \
+   RUN apk add --update mariadb mariadb-client zabbix-agent zabbix-utils ; \
        rm -f /var/cache/apk/*
     
 ADD root /
 
 EXPOSE 3306
 
-CMD ["/etc/s6/services/10-mariadb/run"]
+CMD ["/mysql/startup.sh"]
