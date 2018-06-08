@@ -1,5 +1,8 @@
 #!/usr/bin/with-contenv bash
 
+
+DOCKER_IP=$(ip a|grep "inet "|awk -F" " '{print $2}'|awk -F"/" '{print $1}'|egrep "^172" |head -n 1)
+
 ### Set Defaults
   ENABLE_ZABBIX=${ENABLE_ZABBIX:-"TRUE"}
   ZABBIX_LOGFILE=${ZABBIX_LOGFILE:-"/var/log/zabbix/zabbix_agentd.log"}
@@ -12,7 +15,7 @@
   ZABBIX_LISTEN_IP=${ZABBIX_LISTEN_IP:-"0.0.0.0"}
   ZABBIX_START_AGENTS=${ZABBIX_START_AGENTS:-"0"}
   ZABBIX_SERVER_ACTIVE=${ZABBIX_SERVER_ACTIVE:-"zabbix-proxy"}
-  ZABBIX_HOSTNAME=${ZABBIX_HOSTNAME:-"docker"}
+  ZABBIX_HOSTNAME=${ZABBIX_HOSTNAME:-"$DOCKER_IP"}
   ZABBIX_REFRESH_ACTIVE_CHECKS=${ZABBIX_REFRESH_ACTIVE_CHECKS:-"120"}
   ZABBIX_BUFFER_SEND=${ZABBIX_BUFFER_SEND:-"5"}
   ZABBIX_BUFFER_SIZE=${ZABBIX_BUFFER_SIZE:-"100"}
@@ -46,6 +49,9 @@
     sed -i -e "s/<ZABBIX_MAXLINES_SECOND>/$ZABBIX_MAXLINES_SECOND/g" /etc/zabbix/zabbix_agentd.conf
     sed -i -e "s/<ZABBIX_ALLOW_ROOT>/$ZABBIX_ALLOW_ROOT/g" /etc/zabbix/zabbix_agentd.conf
     sed -i -e "s/<ZABBIX_USER>/$ZABBIX_USER/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_TIMEOUT>/$ZABBIX_TIMEOUT/g" /etc/zabbix/zabbix_agentd.conf
+    sed -i -e "s/<ZABBIX_UNSAFEUSERPARAMETERS>/$ZABBIX_UNSAFEUSERPARAMETERS/g" /etc/zabbix/zabbix_agentd.conf
+
   
     mkdir -p ${ZABBIX_LOGFILE%/*}
     chown -R $ZABBIX_USER ${ZABBIX_LOGFILE%/*}
