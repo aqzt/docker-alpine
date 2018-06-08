@@ -18,6 +18,10 @@ else
   MYSQL_USER=${MYSQL_USER:-""}
   MYSQL_PASSWORD=${MYSQL_PASSWORD:-"111111"}
 
+### Update for Zabbix Monitoring
+sed -i -e "s/<ROOT_PASSWORD>/$MYSQL_PASSWORD/g" /etc/zabbix/.my.cnf
+chmod 0700 /etc/zabbix/.my.cnf
+
   if [ ! -d "/run/mysqld" ]; then
     mkdir -p /run/mysqld
 	chown -R mysql:mysql /run/mysqld

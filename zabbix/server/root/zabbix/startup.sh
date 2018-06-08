@@ -20,6 +20,6 @@ sed -i "s/<ZABBIX_SERVER_ACTIVE>/$ZABBIX_SERVER_ACTIVE/g" /etc/zabbix/zabbix_age
 sed -i "s/<ZABBIX_HOSTNAME>/$ZABBIX_HOSTNAME/g" /etc/zabbix/zabbix_agentd.conf
 
 /usr/sbin/httpd
-/usr/sbin/zabbix_agentd
+##/usr/sbin/zabbix_agentd
 su -p -s /bin/sh zabbix -c "/usr/sbin/zabbix_server -f"
 ping 127.0.0.1 >> /dev/null

@@ -1,4 +1,4 @@
-FROM aqzt/docker-alpine:mini-aliyun
+FROM aqzt/docker-alpine:zabbix-agentd
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ADD root /

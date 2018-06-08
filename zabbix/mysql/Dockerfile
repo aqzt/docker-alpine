@@ -1,4 +1,4 @@
-FROM aqzt/docker-alpine
+FROM aqzt/docker-alpine:zabbix-agentd
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ENV ENABLE_ZABBIX=TRUE
