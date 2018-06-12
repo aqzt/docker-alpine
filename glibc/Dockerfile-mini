@@ -1,4 +1,4 @@
-FROM aqzt/docker-alpine
+FROM alpine:3.7
 LABEL maintainer="ppabc (ppabc@qq.com)"
 
 ENV LANG=C.UTF-8
