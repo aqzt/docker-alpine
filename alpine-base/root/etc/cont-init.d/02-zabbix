@@ -32,9 +32,12 @@ DOCKER_IP=$(ip a|grep "inet "|awk -F" " '{print $2}'|awk -F"/" '{print $1}'|egre
 
 ### ENABLE_ZABBIX_AGENT_ACTIVE
 if [ "$ENABLE_ZABBIX_AGENT_ACTIVE" = "TRUE" ] || [ "$ENABLE_ZABBIX_AGENT_ACTIVE" = "true" ];  then
-echo "Timeout=<ZABBIX_TIMEOUT>" >> /etc/zabbix/zabbix_agentd.conf
-echo "UnsafeUserParameters=<ZABBIX_UNSAFEUSERPARAMETERS>" >> /etc/zabbix/zabbix_agentd.conf
-echo "HostMetadataItem=system.uname" >> /etc/zabbix/zabbix_agentd.conf
+   if [ ! -f /tmp/zabbix_agentd_pid.log ];  then
+   echo "Timeout=<ZABBIX_TIMEOUT>" >> /etc/zabbix/zabbix_agentd.conf
+   echo "UnsafeUserParameters=<ZABBIX_UNSAFEUSERPARAMETERS>" >> /etc/zabbix/zabbix_agentd.conf
+   echo "HostMetadataItem=system.uname" >> /etc/zabbix/zabbix_agentd.conf
+   > /tmp/zabbix_agentd_pid.log
+   fi
 fi
 
 ### Check to see if Enabled/Disabled
