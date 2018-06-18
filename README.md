@@ -64,9 +64,10 @@
 |-------------------|----------------------------------------------------------------|
 | `DEBUG_MODE`      | Enable Debug Mode - Default: `FALSE`                            |
 | `DEBUG_SMTP`      | Setup Mail Catch all on port 1025 (SMTP) and 8025 (HTTP) - Default: `FALSE` |
-| `ENABLE_CRON`     | Enable Cron - Default: `TRUE`                                   |
-| `ENABLE_SMTP`     | Enable SMTP services - Default: `TRUE`						|
-| `ENABLE_ZABBIX`   | Enable Zabbix Agent - Default: `TRUE`                           |
+| `ENABLE_CRON`     | Enable Cron - Default: `FALSE`                                   |
+| `ENABLE_SMTP`     | Enable SMTP services - Default: `FALSE`						|
+| `ENABLE_ZABBIX`   | 开启Zabbix Agent客户端 - Default: `TRUE`                           |
+| `ENABLE_ZABBIX_AGENT_ACTIVE`   | 开启Zabbix Agent客户端主动模式 - Default: `TRUE`                           |
 | `TIMEZONE`        | Set Timezone - Default: `Asia/Shanghai`                     |
 
 如果希望发送此邮件，请设置`ENABLE_SMTP=TRUE`，并配置以下环境变量。有关配置MSMTP的选项的进一步信息，请参见[MSMTP Configuration Options](http://msmtp.sourceforge.net/doc/msmtp.html) 
