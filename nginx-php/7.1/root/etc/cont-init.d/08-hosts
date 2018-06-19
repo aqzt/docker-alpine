@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bash
+
+### Set Defaults
+  DOCKER-MYSQL=${DOCKER-MYSQL:-"172.17.1.1"}
+  DOCKER-PHP5=${DOCKER-PHP5:-"127.0.0.1"}
+  DOCKER-PHP7=${DOCKER-PHP7:-"127.0.0.1"}
+  
+### ENABLE_HOSTS
+if [ "$ENABLE_HOSTS" = "TRUE" ] || [ "$ENABLE_HOSTS" = "true" ];  then
+   if [ ! -f /tmp/hosts-init ];  then
+   echo "$DOCKER-MYSQL     DOCKER-MYSQL" >> /etc/hosts
+   echo "$DOCKER-PHP5      DOCKER-PHP5" >> /etc/hosts
+   echo "$DOCKER-PHP7      DOCKER-PHP7" >> /etc/hosts
+   touch /tmp/hosts-init
+   fi
+fi
+
+  mkdir -p /tmp/state
+  touch /tmp/state/08-hosts-init

@@ -1,9 +1,9 @@
-FROM aqzt/docker-alpine
+FROM aqzt/docker-alpine:aliyun
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ### Default Runtime Environment Variables
-  ENV ZABBIX_HOSTNAME=nginx-php-fpm-app \
-      ENABLE_SMTP=TRUE
+  ENV ENABLE_HOSTS=TRUE \
+      ENABLE_SMTP=FALSE
 
 ### Dependency Installation
   RUN apk update ; \
