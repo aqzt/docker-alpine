@@ -1,4 +1,4 @@
-FROM aqzt/docker-alpine:aliyun
+FROM aqzt/docker-alpine
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ### Default Runtime Environment Variables
@@ -13,6 +13,12 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
           mariadb-client \
           openssl \
           nginx \
+          libpng-dev \
+          libpng-utils \
+          libpng \
+          imagemagick \
+          php7 \
+          php7-common \
           php7-apcu \
           php7-amqp \
           php7-bcmath \
@@ -33,6 +39,7 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
           php7-gmp \
           php7-iconv \
           php7-imagick \
+          php7-imagick-dev \
           php7-imap \
           php7-intl \
           php7-json \
