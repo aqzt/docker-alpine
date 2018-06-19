@@ -1,16 +1,16 @@
 #!/usr/bin/with-contenv bash
 
 ### Set Defaults
-  HOSTS-MYSQL=${HOSTS-MYSQL:-"172.17.1.1"}
-  HOSTS-PHP5=${HOSTS-PHP5:-"127.0.0.1"}
-  HOSTS-PHP7=${HOSTS-PHP7:-"127.0.0.1"}
+  HOSTS_MYSQL=${HOSTS_MYSQL:-"172.17.1.1"}
+  HOSTS_PHP5=${HOSTS_PHP5:-"127.0.0.1"}
+  HOSTS_PHP7=${HOSTS_PHP7:-"127.0.0.1"}
   
 ### ENABLE_HOSTS
 if [ "$ENABLE_HOSTS" = "TRUE" ] || [ "$ENABLE_HOSTS" = "true" ];  then
    if [ ! -f /tmp/hosts-init ];  then
-   echo "$HOSTS-MYSQL     HOSTS-MYSQL" >> /etc/hosts
-   echo "$HOSTS-PHP5      HOSTS-PHP5" >> /etc/hosts
-   echo "$HOSTS-PHP7      HOSTS-PHP7" >> /etc/hosts
+   echo "$HOSTS_MYSQL     HOSTS_MYSQL" >> /etc/hosts
+   echo "$HOSTS_PHP5      HOSTS_PHP5" >> /etc/hosts
+   echo "$HOSTS_PHP7      HOSTS_PHP7" >> /etc/hosts
    touch /tmp/hosts-init
    fi
 fi
