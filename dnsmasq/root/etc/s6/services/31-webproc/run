@@ -5,9 +5,9 @@ do
   sleep 1
 done
 
-if [ ! -f /tmp/state/31-dnsmasq ]; then
+if [ ! -f /tmp/state/31-webproc ]; then
 	mkdir -p /tmp/state
-	echo 'Initialization Complete' >/tmp/state/31-dnsmasq
+	echo 'Initialization Complete' >/tmp/state/31-webproc
 fi
 
 exec webproc --config /etc/dnsmasq.conf -- dnsmasq --no-daemon
