@@ -1,0 +1,2 @@
+You should add your zones to: named.conf.local
+Generally, that's the only file you will need to modify

@@ -1,0 +1,20 @@
+1.) Start with the FULL directory contents of "configs" which has a
+fully functioning recurive resolver/forwarding cacher AND an
+authoritative config at the same time.
+
+The "configs" directory contains:
+
+* README
+* named.conf
+* named.conf.default-zones
+* named.conf.rfc1918
+* named.conf.local -> modify this for all of your authoritative zones
+* named.conf.options -> feel free to overwrite this with one fr
+
+default-zones:
+db.0  db.127  db.255  db.empty  db.local  db.root
+
+
+2.) and then feel free to use the "named.conf.options" provided in the
+"example-configs" to override the default with a more "specific
+'named.conf.options' as needed for a more 

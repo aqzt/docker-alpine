@@ -1,0 +1,42 @@
+//
+// Do any local configuration here
+//
+
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+// STANDARD ZONES
+include "/etc/bind/named.conf.default-zones";
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+include "/etc/bind/named.conf.rfc1918";
+
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+
+#######################################
+# REVERSE 'PTR' RECORDS               #
+#######################################
+# example reverse zone: 1.2.3.4/24
+//zone "4.3.2.1.in-addr.arpa" {
+//    type master;
+//    file "/var/cache/bind/1.2.3.4.rev";
+//    notify yes;
+//};
+
+
+#######################################
+# FORWARD 'A' RECORDS                 #
+#######################################
+# example "forward" (domain) zone: domain.tld
+//zone "domain.tld" {
+//    type master;
+//    file "/var/cache/bind/domain.tld";
+//    notify yes;
+//    #also-notify { a.b.c.d; };
+//    #allow-transfer { localhost; a.b.c.d; };
+//    # vs
+//    #allow-transfer { "none"; };
+//};

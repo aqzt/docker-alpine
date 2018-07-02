@@ -1,0 +1,105 @@
+options {
+    directory "/var/cache/bind";
+    
+    // Remove (hide) our bind version - no reason to disclose it
+    version "";
+    
+    // Configure the IPs to listen on here.
+    listen-on    { any; };
+    listen-on-v6 { none; };
+
+    // QUERY SOURCE - Useful for caching servers behind a firewall
+    // Default: address * port *
+    // Values : The IP address and port to use as the source of queries to other servers
+    // If you have problems and are behind a firewall, uncomment:
+    //query-source address * port *;
+    
+    pid-file "/var/run/named/named.pid";
+    
+    // statistics-file "/var/cache/bind/named.stats"; 
+    // zone-statistics yes; 
+    
+    // If you want to allow only specific hosts to use the DNS server:
+    allow-query { 127.0.0.1; };
+    
+    // Specify a list of IPs/masks to allow zone transfers to here.
+    //
+    // You can override this on a per-zone basis by specifying this inside a zone
+    // block.
+    //
+    // Warning: Removing this block will cause BIND to revert to its default
+    //          behaviour of allowing zone transfers to any host (!).
+    allow-transfer { none; };
+    
+    
+    // If there is a firewall between you and nameservers you want
+    // to talk to, you may need to fix the firewall to allow multiple
+    // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+    
+    // RECURSION - Required for caching servers
+    // Default: yes
+    // Values : yes, no
+    //
+    // yes: Attempt to resolve requests we are not authoritative for
+    // no : Do not resolve requests we are not authoritative for
+    //
+    // NOTE: Commented out because specified in each zone/view
+    recursion yes;
+    //recursion no;
+    
+    
+    // ALLOW-RECURSION - Who may use our caching server?
+    // Default: any;
+    // Values : any, none, (addresslist)
+    //
+    // any    : anybody may use the caching server
+    // none   : noone may use the caching server
+    // address: List of IP addresses that may use the caching server.
+    // allow-recursion { localhost; localnets; };
+    //
+    // NOTE: Commented out because specified in each zone/view
+    // allow-recursion { clients; servers; lan; };
+    //allow-recursion { none; };
+    allow-recursion { 127.0.0.1; };
+    
+    // If your ISP provided one or more IP addresses for stable 
+    // nameservers, you probably want to use them as forwarders.  
+    // Uncomment the following block, and insert the addresses replacing 
+    // the all-0's placeholder.
+    
+    forwarders {
+        8.8.8.8;
+    	8.8.4.4;
+    };
+    
+    // FORWARD - Recommended for caching servers
+    // Default: first
+    // Values : first, only
+    //
+    // first: Query "forwarders" first, then resolve request ourself
+    // only : Only query the "forwarders" to resolve requests
+    //
+    forward first;
+    
+    
+    // NOTIFY - Relevant to authoritative servers
+    // Default: yes
+    // Values : yes, explicit, no
+    //
+    // yes     : Send DNS NOTIFY messages to slave servers in zone NS records when zone changes
+    // explicit: Only send DNS NOTIFY messages to "also-notify" hosts
+    // no      : Never automatically send DNS NOTIFY messages
+    //
+    notify yes;
+    
+    // Need this for SRV records
+    check-names master ignore;
+    
+    //========================================================================
+    // If BIND logs error messages about the root key being expired,
+    // you will need to update your keys.  See https://www.isc.org/bind-keys
+    //========================================================================
+    dnssec-validation auto;
+    
+    auth-nxdomain no;    # conform to RFC1035
+};
