@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/99-container-init ]
+do
+  sleep 1
+done
+
+if [ ! -f /tmp/state/35-varnish ]; then
+	mkdir -p /tmp/state
+	echo 'Initialization Complete' >/tmp/state/35-varnish
+fi
+
+exec /usr/sbin/varnishd  -F  -f  /etc/varnish/default.vcl  -s  malloc,300M  -a  0.0.0.0:80  -a  0.0.0.0:81,PROXY
+
