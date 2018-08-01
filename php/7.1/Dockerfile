@@ -2,8 +2,8 @@ FROM aqzt/docker-alpine
 LABEL maintainer="aqzt.com (ppabc@qq.com)"
 
 ### Default Runtime Environment Variables
-  ENV ZABBIX_HOSTNAME=php-fpm-app \
-      ENABLE_SMTP=TRUE
+  ENV ENABLE_HOSTS=TRUE \
+      ENABLE_SMTP=FALSE
 
 ### Dependency Installation
   RUN apk update ; \
@@ -12,10 +12,14 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
           ca-certificates \
           mariadb-client \
           openssl \
-          php7-apcu \
-          php7-amqp \
+          libpng-dev \
+          libpng-utils \
+          libpng \
+          imagemagick \
           php7 \
           php7-common \
+          php7-apcu \
+          php7-amqp \
           php7-bcmath \
           php7-bz2 \
           php7-calendar \
@@ -34,6 +38,7 @@ LABEL maintainer="aqzt.com (ppabc@qq.com)"
           php7-gmp \
           php7-iconv \
           php7-imagick \
+          php7-imagick-dev \
           php7-imap \
           php7-intl \
           php7-json \
